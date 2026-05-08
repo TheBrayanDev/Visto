@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlmodel
+psycopg2-binary
+ultralytics
+transformers
+torch
+opencv-python
+python-dotenv

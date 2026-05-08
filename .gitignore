@@ -1,0 +1,7 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+yolov8n.pt
+models--facebook--nllb-200-distilled-600M/

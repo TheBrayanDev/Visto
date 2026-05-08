@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visto</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0f0f13;
+      color: #e8e8ed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    header { text-align: center; margin-bottom: 2rem; }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    header p { color: #888; margin-top: 0.25rem; font-size: 0.95rem; }
+    .card {
+      background: #1a1a24;
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 640px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .video-wrapper {
+      position: relative;
+      background: #000;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+    }
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .controls select, .controls button { flex: 1; min-width: 140px; }
+    select {
+      padding: 0.7rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #333;
+      background: #26262f;
+      color: #e8e8ed;
+      font-size: 0.95rem;
+      outline: none;
+      cursor: pointer;
+    }
+    select:focus { border-color: #6366f1; }
+    button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .result {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      background: #26262f;
+      display: none;
+    }
+    .result.visible { display: block; }
+    .result .label { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .detection-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #333;
+      font-size: 0.95rem;
+    }
+    .detection-item:last-child { border-bottom: none; }
+    .detection-item .rank {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .detection-item .detect-label { color: #aaa; }
+    .detection-item .arrow { color: #6366f1; font-weight: 600; }
+    .detection-item .detect-translation { font-weight: 600; flex: 1; }
+    .detection-item .detect-conf {
+      font-size: 0.8rem;
+      color: #4ade80;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .result .meta { font-size: 0.85rem; color: #888; margin-top: 0.75rem; }
+    .error { color: #f87171; margin-top: 1rem; text-align: center; }
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Visto</h1>
+    <p>Detect &middot; Translate &middot; Speak</p>
+  </header>
+  <div class="card">
+    <div class="video-wrapper">
+      <video id="webcam" autoplay playsinline></video>
+    </div>
+    <div class="controls">
+      <select id="langSelect">
+        <option value="spa_Latn">Spanish</option>
+        <option value="fra_Latn">French</option>
+        <option value="deu_Latn">German</option>
+        <option value="jpn_Jpan">Japanese</option>
+        <option value="zho_Hans">Chinese</option>
+      </select>
+      <button id="translateBtn">Translate</button>
+    </div>
+    <div id="result" class="result">
+      <div class="label">Detections</div>
+      <div id="resultValue"></div>
+      <div class="meta" id="resultMeta"></div>
+    </div>
+    <div id="error" class="error"></div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
