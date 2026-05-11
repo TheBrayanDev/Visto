@@ -1,1 +1,1 @@
-1. ✅ renamed `venv` → `.venv`, updated `.gitignore`, fixed internal paths
+1. Add history

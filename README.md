@@ -1,6 +1,6 @@
 # Visto
 
-Full-stack multilingual object detection & translation app. Detects objects from webcam, translates labels into a target language, speaks them aloud, and logs results to a database.
+Desktop multilingual object detection & translation app. Detects objects from webcam, translates labels into a target language, speaks them aloud, and logs results to a database.
 
 ## Quick Start
 
@@ -23,12 +23,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Launch the Server
+### 4. Launch the App
 
 ```bash
-uvicorn main:app --reload
+python main.py
 ```
 
-Open http://localhost:8000 in your browser, grant webcam access, and start translating.
+A window will open showing your webcam feed. Select a language, click **Translate**, and the top 5 detected objects will appear with their translations.
 
 > **Note:** The first run downloads YOLOv8 and NLLB-200 models (~1.5 GB total). Subsequent runs work fully offline.
+
+---
+
+*Inspired by [Thing Translator](https://experiments.withgoogle.com/thing-translator) by Dan Motzenbecker & Google Creative Lab (2017). Visto is its local-first, fully offline counterpart — same concept, no cloud APIs.*

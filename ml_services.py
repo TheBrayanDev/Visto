@@ -24,19 +24,27 @@ def load_models():
     return yolo, tokenizer, model
 
 
-def detect_objects(yolo, image_bytes: bytes) -> list[dict]:
-    img = Image.open(io.BytesIO(image_bytes))
-    img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-    results = yolo(img)[0]
-
+def _parse_detections(results) -> list[dict]:
     detections = []
     for box in results.boxes:
         cls_id = int(box.cls[0])
         label = results.names[cls_id]
         conf = float(box.conf[0])
         detections.append({"label": label, "confidence": conf})
-
     return detections
+
+
+def detect_objects_np(yolo, img_rgb: np.ndarray) -> list[dict]:
+    img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+    results = yolo(img_bgr)[0]
+    return _parse_detections(results)
+
+
+def detect_objects(yolo, image_bytes: bytes) -> list[dict]:
+    img = Image.open(io.BytesIO(image_bytes))
+    img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+    results = yolo(img)[0]
+    return _parse_detections(results)
 
 
 def translate_text(tokenizer, model, text: str, target_lang: str) -> str:
